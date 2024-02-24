@@ -1,23 +1,29 @@
 import { Form, Select } from "antd";
+import { Controller } from "react-hook-form";
 
-const PhSelect = ({ label }) => {
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
+type TPHSelectProps = {
+  label: string;
+  name: string;
+  options: { value: string; label: string; disabled?: boolean };
+};
+
+const PhSelect = ({ label, name, options }: TPHSelectProps) => {
   return (
-    <Form.Item label={label}>
-      <Select
-        defaultValue="lucy"
-        style={{ width: "100%" }}
-        onChange={handleChange}
-        options={[
-          { value: "jack", label: "Jack" },
-          { value: "lucy", label: "Lucy" },
-          { value: "Yiminghe", label: "yiminghe" },
-          { value: "disabled", label: "Disabled", disabled: true },
-        ]}
-      />
-    </Form.Item>
+    <Controller
+      name={name}
+      render={({ field, fieldState: { error } }) => (
+        <Form.Item label={label}>
+          <Select
+            defaultValue="select"
+            style={{ width: "100%" }}
+            {...field}
+            options={options}
+            size="large"
+          />
+          {error && <small style={{ color: "red" }}>{error.message}</small>}
+        </Form.Item>
+      )}
+    />
   );
 };
 
