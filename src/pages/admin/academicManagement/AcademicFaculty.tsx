@@ -1,9 +1,5 @@
 const AcademicFaculty = () => {
-  return (
-    <div>
-      <h1>This is academic faculty</h1>
-    </div>
-  );
+  return <h1>All academic Faculty</h1>;
 };
 
 export default AcademicFaculty;
