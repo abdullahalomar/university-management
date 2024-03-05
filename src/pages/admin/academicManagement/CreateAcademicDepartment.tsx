@@ -15,16 +15,21 @@ const CreateAcademicDepartment = () => {
 
   const { data: fData, isloading: fIsloading } =
     useGetAcademicFacultiesQuery(undefined);
+  console.log(fData);
 
   const facultyOptions = fData?.data?.map((item) => ({
     value: item._id,
     label: item.name,
   }));
+  console.log(facultyOptions);
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
+
     const toastId = toast.loading("Creating...");
     const departmentData = {
       name: data?.name,
-      facultyID: data?._id,
+      academicFaculty: data?.academicFaculty,
     };
 
     try {
