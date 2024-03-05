@@ -1,7 +1,7 @@
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import PhForm from "../../../components/form/PhForm";
 import PhInput from "../../../components/form/PhInput";
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import PhSelect from "../../../components/form/PhSelect";
 import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 import PHDatePicker from "../../../components/form/PHDatePicker";
@@ -61,7 +61,7 @@ const studentDefaultValues = {
   // dateOfBirth: "1990-01-01",
   bloogGroup: "A+",
 
-  email: "student232@gmail.com",
+  // email: "student3434232@gmail.com",
   contactNo: "1235678",
   emergencyContactNo: "987-654-3210",
   presentAddress: "123 Main St, Cityville",
@@ -117,6 +117,7 @@ const CreateStudent = () => {
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(studentData));
+    formData.append("file", data.image);
 
     addStudent(formData);
 
@@ -149,6 +150,21 @@ const CreateStudent = () => {
                 options={bloodGroupOptions}
                 name="bloodGroup"
                 label="Blood Group"
+              />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <Controller
+                name="image"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Picture">
+                    <Input
+                      type="file"
+                      value={value?.fileName}
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                  </Form.Item>
+                )}
               />
             </Col>
           </Row>
