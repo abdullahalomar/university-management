@@ -10,6 +10,7 @@ import {
   useGetAllSemestersQuery,
 } from "../../../redux/features/admin/academicManagement.api";
 import { useAddStudentMutation } from "../../../redux/features/admin/userManagement.api";
+import { toast } from "sonner";
 
 const studentDummyData = {
   password: "student123",
@@ -109,6 +110,7 @@ const CreateStudent = () => {
   }));
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const toastId = toast.loading("Creating...");
     const studentData = {
       password: "student123",
       student: data,
@@ -120,7 +122,9 @@ const CreateStudent = () => {
     formData.append("file", data.image);
 
     addStudent(formData);
-
+    toast.success("Student Created Successfully", {
+      id: toastId,
+    });
     console.log(Object.fromEntries(formData));
   };
   return (

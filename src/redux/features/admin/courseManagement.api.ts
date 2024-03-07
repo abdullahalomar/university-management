@@ -1,10 +1,10 @@
-import { TQueryParams, TResponseRedux, TStudent } from "../../../types";
+import { TQueryParams, TResponseRedux, TSemester } from "../../../types";
 import { baseApi } from "../../api/baseApi";
 
-const userManagementApi = baseApi.injectEndpoints({
+const courseManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // get
-    getAllStudents: builder.query({
+    // get all semesters
+    getAllRegisteredSemesters: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
 
@@ -15,12 +15,12 @@ const userManagementApi = baseApi.injectEndpoints({
         }
 
         return {
-          url: "/students",
+          url: "/semester-registrations",
           method: "GET",
           params: params,
         };
       },
-      transformResponse: (response: TResponseRedux<TStudent[]>) => {
+      transformResponse: (response: TResponseRedux<TSemester[]>) => {
         console.log(response);
 
         return {
@@ -29,10 +29,10 @@ const userManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
-    // add
-    addStudent: builder.mutation({
+    // add semester
+    addRegisteredSemester: builder.mutation({
       query: (data) => ({
-        url: "/users/create-student",
+        url: "/semester-registrations/create-semester-registration",
         method: "POST",
         body: data,
       }),
@@ -40,5 +40,7 @@ const userManagementApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useAddStudentMutation, useGetAllStudentsQuery } =
-  userManagementApi;
+export const {
+  useAddRegisteredSemesterMutation,
+  useGetAllRegisteredSemestersQuery,
+} = courseManagementApi;
