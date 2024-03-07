@@ -1,6 +1,12 @@
 import { Button, Modal, Table } from "antd";
-import { useGetAllCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
+import {
+  useAddFacultyMutation,
+  useGetAllCoursesQuery,
+} from "../../../redux/features/admin/courseManagement.api";
 import { useState } from "react";
+import PhForm from "../../../components/form/PhForm";
+import PhSelect from "../../../components/form/PhSelect";
+import { useGetAllFacultiesQuery } from "../../../redux/features/admin/userManagement.api";
 
 const Courses = () => {
   const { data: courses, isFetching } = useGetAllCoursesQuery(undefined);
@@ -26,8 +32,8 @@ const Courses = () => {
     {
       title: "Action",
       key: "X",
-      render: () => {
-        return <AddFacultyModal />;
+      render: (item) => {
+        return <AddFacultyModal facultyInfo={item} />;
       },
     },
   ];
@@ -54,22 +60,48 @@ const Courses = () => {
   );
 };
 
-const AddFacultyModal = () => {
+const AddFacultyModal = ({ facultyInfo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data: facultiesData } = useGetAllFacultiesQuery(undefined);
+  const [addFaculties] = useAddFacultyMutation();
+
+  const facultiesOption = facultiesData?.data?.map((item) => ({
+    value: item._id,
+    label: item.fullName,
+  }));
+
+  const handleSubmit = (data) => {
+    const facultyData = {
+      courseId: facultyInfo.key,
+      data,
+    };
+    addFaculties(facultyData);
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
+  const handleCancel = () => {
     setIsModalOpen(false);
   };
   return (
     <>
       <Button onClick={showModal}>Add Faculty</Button>
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <PhForm onSubmit={handleSubmit}>
+          <PhSelect
+            mode="multiple"
+            options={facultiesOption}
+            name="faculties"
+            label="Faculty"
+          />
+          <Button htmlType="submit">Submit</Button>
+        </PhForm>
       </Modal>
     </>
   );
