@@ -19,9 +19,9 @@ const PHSelectWithWatch = ({
   mode,
   onValueChange,
 }: TPHSelectProps) => {
-  const { control } = useFormContext();
+  const method = useFormContext();
   const inputValue = useWatch({
-    control,
+    control: method.control,
     name,
   });
 
