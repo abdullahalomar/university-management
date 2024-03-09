@@ -5,7 +5,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useChangePasswordMutation } from "../../redux/features/admin/userManagement.api";
 import { useAppDispatch } from "../../redux/features/hooks";
 import { logout } from "../../redux/features/auth/authSlice";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TResponse } from "../../types";
 
 const ChangePassword = () => {
