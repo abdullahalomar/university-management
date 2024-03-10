@@ -32,7 +32,7 @@ const OfferedCourse = () => {
 
   const handleEnroll = async (id) => {
     const enrollData = {
-      OfferedCourse: id,
+      offeredCourse: id,
     };
     const res = await enroll(enrollData);
     console.log(res);
@@ -60,8 +60,8 @@ const OfferedCourse = () => {
                   >
                     <Col span={5}>Section: {section.section}</Col>
                     <Col span={5}>
-                      Section:{" "}
-                      {section.day.map((day) => (
+                      Days:{" "}
+                      {section.days.map((day) => (
                         <span>{day}</span>
                       ))}
                     </Col>

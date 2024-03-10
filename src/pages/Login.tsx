@@ -17,6 +17,11 @@ const Login = () => {
   //   id: "A-0001",
   //   password: "admin123",
   // };
+
+  // faculty
+  // "id":"F-0001",
+  //   "password":"123456"
+
   const defaultValues = {
     id: "2027030001",
     password: "123456",

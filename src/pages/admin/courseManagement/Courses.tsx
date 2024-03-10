@@ -75,6 +75,8 @@ const AddFacultyModal = ({ facultyInfo }) => {
       courseId: facultyInfo.key,
       data,
     };
+    console.log(facultiesData);
+
     addFaculties(facultyData);
   };
 

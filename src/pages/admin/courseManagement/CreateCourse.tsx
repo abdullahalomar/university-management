@@ -6,13 +6,15 @@ import PhSelect from "../../../components/form/PhSelect";
 import { toast } from "sonner";
 
 import PhInput from "../../../components/form/PhInput";
-import { useAddCourseMutation } from "../../../redux/features/admin/courseManagement.api";
+import {
+  useAddCourseMutation,
+  useGetAllCoursesQuery,
+} from "../../../redux/features/admin/courseManagement.api";
 import { TResponse } from "../../../types";
-import { useGetAllFacultiesQuery } from "../../../redux/features/admin/userManagement.api";
 
 const CreateCourse = () => {
   const [createCourse] = useAddCourseMutation();
-  const { data: courses } = useGetAllFacultiesQuery(undefined);
+  const { data: courses } = useGetAllCoursesQuery(undefined);
 
   const preRequisiteCoursesOptions = courses?.data?.map((item) => ({
     value: item._id,

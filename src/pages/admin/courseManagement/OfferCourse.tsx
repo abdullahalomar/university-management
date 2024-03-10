@@ -25,10 +25,11 @@ const OfferCourse = () => {
 
   const [addOfferedCourse] = useAddOfferedCourseMutation();
 
-  const { data: semesterRegistrationData } = useGetAllRegisteredSemestersQuery(
+  const { data: semesterRegistrationData } = useGetAllRegisteredSemestersQuery([
     { name: "sort", value: "year" },
-    { name: "status", value: "UPCOMING" }
-  );
+    { name: "status", value: "UPCOMING" },
+  ]);
+  console.log(semesterRegistrationData);
 
   const { data: academicFAcultyData } = useGetAcademicFacultiesQuery(undefined);
 
@@ -64,10 +65,20 @@ const OfferCourse = () => {
     label: item.title,
   }));
 
-  const facultiesOptions = facultiesData?.data?.map((item) => ({
+  const facultiesOptions = facultiesData?.data?.faculties?.map((item) => ({
     value: item._id,
     label: item.fullName,
   }));
+
+  const weekDaysOptions = [
+    { value: "Mon", label: "Monday" },
+    { value: "Tue", label: "Tuesday" },
+    { value: "Wed", label: "Wednesday" },
+    { value: "Thu", label: "Thursday" },
+    { value: "Fri", label: "Friday" },
+    { value: "Sat", label: "Saturday" },
+    { value: "Sun", label: "Sunday" },
+  ];
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const addOfferedCourseData = {
@@ -77,6 +88,7 @@ const OfferCourse = () => {
       startTime: moment(new Date(data.startTime)).format("HH:mm"),
       endTime: moment(new Date(data.endTime)).format("HH:mm"),
     };
+    console.log(addOfferedCourseData);
 
     const res = await addOfferedCourse(addOfferedCourseData);
     console.log(res);
@@ -88,7 +100,7 @@ const OfferCourse = () => {
           <PhForm onSubmit={onSubmit}>
             <PhSelect
               label="Semester Registration"
-              name="academicSemester"
+              name="semesterRegistration"
               options={semesterRegistrationOptions}
             ></PhSelect>
             <PhSelect
@@ -98,7 +110,7 @@ const OfferCourse = () => {
             ></PhSelect>
             <PhSelect
               label="Academic Department"
-              name="academicDEpartment"
+              name="academicDepartment"
               options={academicDepartmentOptions}
             ></PhSelect>
             <PHSelectWithWatch
@@ -116,12 +128,12 @@ const OfferCourse = () => {
             />
             <PhInput type="text" name="section" label="Section" />
             <PhInput type="text" name="maxCapacity" label="Max Capacity" />
-            {/* <PhSelect
+            <PhSelect
               mode="multiple"
               options={weekDaysOptions}
               name="days"
               label="Days"
-            /> */}
+            />
             <PHTimePicker name="startTime" label="Start Time" />
             <PHTimePicker name="endTime" label="End Time" />
             <Button htmlType="submit">Submit</Button>
